@@ -6,7 +6,7 @@ const Customers = () => {
   const getCustomers = async () => {
     const response = await fetch("/customers");
     const jsonData = await response.json();
-
+    console.log(jsonData);
     setCustomers(jsonData);
   };
 
@@ -16,7 +16,7 @@ const Customers = () => {
 
   return (
     <div className="Customers">
-      <div class="container">
+      <div className="container">
         <h1 >List of all customers</h1>
         <table>
           <thead>
