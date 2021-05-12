@@ -7,7 +7,7 @@ const Customers = () => {
     try {
       const response = await fetch("/getcustomers");
       const jsonData = await response.json();
-      console.log(jsonData);
+      // console.log(jsonData);
       setCustomers(jsonData);
     } catch (err) {
       console.log(err.message);

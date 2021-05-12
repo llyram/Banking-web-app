@@ -25,6 +25,7 @@ app.get("/getcustomers", async (req, res) => {
     const allCustomers = await pool.query(
       "SELECT * FROM customers ORDER BY c_id"
     );
+    console.log("hello");
     res.json(allCustomers.rows);
   } catch (err) {
     console.log(err.message);
