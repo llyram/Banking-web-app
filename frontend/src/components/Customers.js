@@ -5,7 +5,7 @@ const Customers = () => {
 
   const getCustomers = async () => {
     try {
-      const response = await fetch("/customers");
+      const response = await fetch("/getcustomers");
       const jsonData = await response.json();
       console.log(jsonData);
       setCustomers(jsonData);

@@ -5,7 +5,7 @@ const History = () => {
 
   const getHistory = async () => {
     try {
-      const response = await fetch("/history");
+      const response = await fetch("/gethistory");
       const jsonData = await response.json();
       console.log(jsonData);
       setTransactions(jsonData);

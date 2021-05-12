@@ -19,7 +19,7 @@ if (process.env.NODE_ENV === "production") {
 // Routes //
 
 // get all users
-app.get("/customers", async (req, res) => {
+app.get("/getcustomers", async (req, res) => {
   console.log("query");
   try {
     const allCustomers = await pool.query(
@@ -74,7 +74,7 @@ app.post("/transfer", async (req, res) => {
 });
 
 // get all transactions
-app.get("/history", async (req, res) => {
+app.get("/gethistory", async (req, res) => {
   const allCustomers = await pool.query("SELECT * FROM transfers");
   res.json(allCustomers.rows);
 });
