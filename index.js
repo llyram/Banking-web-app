@@ -12,7 +12,7 @@ app.use(cors());
 app.use(express.json());
 
 if (process.env.NODE_ENV === "production") {
-  // serve statci content
+  // serve static content
   app.use(express.static(path.join(__dirname, "frontend/build")));
 }
 
@@ -35,16 +35,35 @@ app.get("/customers", async (req, res) => {
 app.post("/transfer", async (req, res) => {
   const { sender_name, receiver_name, amount } = req.body;
   // console.log(sender_name, receiver_name, amount);
+  try {
+    const newTransaction = await pool.query(
+      "INSERT INTO transfers (sender, receiver, transfer_amount) VALUES ($1, $2, $3) RETURNING *",
+      [sender_name, receiver_name, amount]
+    );
+  } catch (err) {
+    console.log(err.message);
+  }
 
-  const newTransaction = await pool.query(
-    "INSERT INTO transfers (sender, receiver, transfer_amount) VALUES ($1, $2, $3) RETURNING *",
-    [sender_name, receiver_name, amount]
-  );
-
+  try {
+    const addAmount = await pool.query(
+      "UPDATE customers SET balance = balance + $1 WHERE name = $2",
+      [amount, receiver_name]
+    );
+  } catch (err) {
+    console.log(err.message);
+  }
   const addAmount = await pool.query(
     "UPDATE customers SET balance = balance + $1 WHERE name = $2",
     [amount, receiver_name]
   );
+  try {
+    const subtractAmount = await pool.query(
+      "UPDATE customers SET balance = balance - $1 WHERE name = $2",
+      [amount, sender_name]
+    );
+  } catch (err) {
+    console.log(err.message);
+  }
 
   const subtractAmount = await pool.query(
     "UPDATE customers SET balance = balance - $1 WHERE name = $2",

@@ -1,5 +1,5 @@
 import react, { useState, useEffect } from "react";
-import {Redirect, useHistory} from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 
 const Transact = () => {
   const [customers, setCustomers] = useState([]);
@@ -17,51 +17,54 @@ const Transact = () => {
   // var amount = -1;
 
   const getCustomers = async () => {
-    const response = await fetch("/customers");
-    const jsonData = await response.json();
+    try {
+      const response = await fetch("/customers");
+      const jsonData = await response.json();
 
-    setCustomers(jsonData);
+      setCustomers(jsonData);
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   const transactionHandler = async (e) => {
     e.preventDefault();
     console.log(sender_name, receiver_name, amount);
-    if (sender_name == ""){
+    if (sender_name == "") {
       window.alert("Select sender!");
       return;
-    }
-    else if (receiver_name == ""){
+    } else if (receiver_name == "") {
       window.alert("Select Receiver");
       return;
-    }
-    else if (amount == -1){
+    } else if (amount == -1) {
       window.alert("Please enter amount to be transferred!");
       return;
-    }
-    else if (sender_bal < amount) {
+    } else if (sender_bal < amount) {
       window.alert("Insufficient Funds!!");
       return;
-    }
-    else if (sender_name == receiver_name) {
+    } else if (sender_name == receiver_name) {
       window.alert("Sender and Receiver Cannot be the same!!");
       return;
     }
 
-    const body = { sender_name, receiver_name, amount };
+    try {
+      const body = { sender_name, receiver_name, amount };
 
-    const response = await fetch("/transfer", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    });
+      const response = await fetch("/transfer", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
 
-    console.log(response);
+      console.log(response);
+    } catch (error) {
+      console.log(error.message);
+    }
 
     window.confirm("Transaction Successful!");
     getCustomers();
-    
-    history.push('/history');
 
+    history.push("/history");
   };
 
   const senderChangeHandler = (e) => {

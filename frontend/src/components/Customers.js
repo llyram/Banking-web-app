@@ -4,10 +4,14 @@ const Customers = () => {
   const [customers, setCustomers] = useState([]);
 
   const getCustomers = async () => {
-    const response = await fetch("/customers");
-    const jsonData = await response.json();
-    console.log(jsonData);
-    setCustomers(jsonData);
+    try {
+      const response = await fetch("/customers");
+      const jsonData = await response.json();
+      console.log(jsonData);
+      setCustomers(jsonData);
+    } catch (err) {
+      console.log(err.message);
+    }
   };
 
   useEffect(() => {
@@ -17,7 +21,7 @@ const Customers = () => {
   return (
     <div className="Customers">
       <div className="container">
-        <h1 >List of all customers</h1>
+        <h1>List of all customers</h1>
         <table>
           <thead>
             <tr>

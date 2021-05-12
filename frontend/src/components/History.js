@@ -1,19 +1,22 @@
-import react, {useEffect, useState} from "react";
+import react, { useEffect, useState } from "react";
 
 const History = () => {
-
   const [transactions, setTransactions] = useState([]);
 
-  const getHistory = async() => {
-    const response = await fetch("/history");
-    const jsonData = await response.json();
-    console.log(jsonData);
-    setTransactions(jsonData);
-  }
+  const getHistory = async () => {
+    try {
+      const response = await fetch("/history");
+      const jsonData = await response.json();
+      console.log(jsonData);
+      setTransactions(jsonData);
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
 
   useEffect(() => {
     getHistory();
-  },[]);
+  }, []);
 
   return (
     <div className="History">
@@ -29,7 +32,7 @@ const History = () => {
             </tr>
           </thead>
           <tbody>
-          {transactions.map((transaction) => (
+            {transactions.map((transaction) => (
               <tr>
                 <td>{transaction.t_id}</td>
                 <td>{transaction.sender}</td>
