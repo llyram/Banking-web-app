@@ -40,37 +40,22 @@ app.post("/transfer", async (req, res) => {
       "INSERT INTO transfers (sender, receiver, transfer_amount) VALUES ($1, $2, $3) RETURNING *",
       [sender_name, receiver_name, amount]
     );
-  } catch (err) {
-    console.log(err.message);
-  }
 
-  try {
     const addAmount = await pool.query(
       "UPDATE customers SET balance = balance + $1 WHERE name = $2",
       [amount, receiver_name]
     );
-  } catch (err) {
-    console.log(err.message);
-  }
-  const addAmount = await pool.query(
-    "UPDATE customers SET balance = balance + $1 WHERE name = $2",
-    [amount, receiver_name]
-  );
-  try {
+
     const subtractAmount = await pool.query(
       "UPDATE customers SET balance = balance - $1 WHERE name = $2",
       [amount, sender_name]
     );
+
+    res.json(newTransaction);
   } catch (err) {
     console.log(err.message);
   }
-
-  const subtractAmount = await pool.query(
-    "UPDATE customers SET balance = balance - $1 WHERE name = $2",
-    [amount, sender_name]
-  );
-
-  res.json(newTransaction);
+  
 });
 
 // get all transactions

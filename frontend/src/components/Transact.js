@@ -29,25 +29,25 @@ const Transact = () => {
 
   const transactionHandler = async (e) => {
     e.preventDefault();
-    console.log(sender_name, receiver_name, amount);
-    if (sender_name == "") {
-      window.alert("Select sender!");
-      return;
-    } else if (receiver_name == "") {
-      window.alert("Select Receiver");
-      return;
-    } else if (amount == -1) {
-      window.alert("Please enter amount to be transferred!");
-      return;
-    } else if (sender_bal < amount) {
-      window.alert("Insufficient Funds!!");
-      return;
-    } else if (sender_name == receiver_name) {
-      window.alert("Sender and Receiver Cannot be the same!!");
-      return;
-    }
 
     try {
+      console.log(sender_name, receiver_name, amount);
+      if (sender_name == "") {
+        window.alert("Select sender!");
+        return;
+      } else if (receiver_name == "") {
+        window.alert("Select Receiver");
+        return;
+      } else if (amount == -1) {
+        window.alert("Please enter amount to be transferred!");
+        return;
+      } else if (sender_bal < amount) {
+        window.alert("Insufficient Funds!!");
+        return;
+      } else if (sender_name == receiver_name) {
+        window.alert("Sender and Receiver Cannot be the same!!");
+        return;
+      }
       const body = { sender_name, receiver_name, amount };
 
       const response = await fetch("/transfer", {
@@ -57,14 +57,14 @@ const Transact = () => {
       });
 
       console.log(response);
+      window.confirm("Transaction Successful!");
+      getCustomers();
+
+      history.push("/history");
+      
     } catch (error) {
       console.log(error.message);
     }
-
-    window.confirm("Transaction Successful!");
-    getCustomers();
-
-    history.push("/history");
   };
 
   const senderChangeHandler = (e) => {

@@ -7,7 +7,7 @@ const History = () => {
     try {
       const response = await fetch("/gethistory");
       const jsonData = await response.json();
-      console.log(jsonData);
+      // console.log(jsonData);
       setTransactions(jsonData);
     } catch (err) {
       console.log(err.message);
