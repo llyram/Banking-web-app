@@ -1,4 +1,4 @@
-import react, { useState, useEffect, Fragment } from "react";
+import react, { useState, useEffect} from "react";
 
 const Customers = () => {
   const [customers, setCustomers] = useState([]);
