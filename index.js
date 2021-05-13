@@ -22,10 +22,11 @@ if (process.env.NODE_ENV === "production") {
 app.get("/getcustomers", async (req, res) => {
   console.log("query");
   try {
-    // const allCustomers = await pool.query(
-    //   "SELECT * FROM customers ORDER BY c_id"
-    // );
-    // console.log(allCustomers.rows);
+    const allCustomers = await pool.query(
+      "SELECT * FROM customers ORDER BY c_id"
+    );
+    console.log(allCustomers.rows);
+    res.json(allCustomers.rows);
     res.json(mock_return);
   } catch (err) {
     console.log(err.message);
